@@ -15,7 +15,37 @@ Protocol::Dqlite - L<Dqlite|https://dqlite.io> in Perl
 
 =head1 SYNOPSIS
 
+    use autodie;
+
+    my $dqlite = Protocol::Dqlite->new();
+
+    my $socket = IO::Socket::INET->new('127.0.0.1:9001') or die;
+
+    syswrite $s, Protocol::Dqlite::handshake();
+
+    # Register ourselves as a Dqlite client:
+    syswrite $s, Protocol::Dqlite::request( Protocol::Dqlite::REQUEST_CLIENT, 0 );
+
+    # Await the server’s acknowledgement:
+    while (sysread $s, my $buf, 512) {
+        my ($msg) = $dqlite->feed($buf);
+        next if !$msg;
+
+        last if $msg isa Protocol::Dqlite::Response::WELCOME;
+
+        # An unexpected response. Better bail out …
+	#
+        require Data::Dumper;
+        die Data::Dumper::Dumper($msg);
+    }
+
+… and now you can exchange messages as you wish.
+
 =head1 DESCRIPTION
+
+This module implements message parsing and creation for
+L<Dqlite|https://dqlite.io> clients. To use this module you’ll need to
+write the I/O logic yourself.
 
 =head1 CHARACTER ENCODING
 
@@ -32,12 +62,12 @@ use Carp ();
 my ( $PACK_STRING, $PACK_U64, $PACK_I64, $PACK_ALIGN_U64 );
 
 BEGIN {
-    eval { pack 'q' } or Carp::croak "64-bit perl is required!";
-
     $PACK_ALIGN_U64 = 'x![q]';
     $PACK_STRING    = "Z* $PACK_ALIGN_U64";
     $PACK_U64       = 'Q<';
     $PACK_I64       = 'q<';
+
+    eval { pack $PACK_U64 } or Carp::croak "64-bit perl is required!";
 }
 
 use constant {
@@ -204,6 +234,14 @@ in Dqlite’s source code.
 =head2 Role Codes
 
 C<ROLE_VOTER>, C<ROLE_STANDBY>, C<ROLE_SPARE>
+
+=cut
+
+use constant {
+    ROLE_VOTER => 0,
+    ROLE_STANDBY => 1,
+    ROLE_SPARE => 2,
+};
 
 =head2 Tuple Member Types
 

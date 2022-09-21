@@ -7,7 +7,8 @@ use autodie;
 use AnyEvent::Loop;
 use IO::Socket::INET;
 
-use lib './lib';
+use FindBin;
+use lib "$FindBin::Bin/../lib";
 use Protocol::Dqlite;
 
 use Data::Dumper;
@@ -57,9 +58,16 @@ print Dumper( msg => $req);
 
 syswrite $s, $req;
 
+#syswrite $s, Protocol::Dqlite::request(
+#        Protocol::Dqlite::REQUEST_DUMP,
+#	"demo",
+#);
+
 syswrite $s, Protocol::Dqlite::request(
-        Protocol::Dqlite::REQUEST_DUMP,
-	"demo",
+	Protocol::Dqlite::REQUEST_QUERY_SQL,
+	0,
+	'select ?',
+	Protocol::Dqlite::TUPLE_STRING, "\xe9p\xe9e",
 );
 
 shutdown $s, 1;
@@ -73,7 +81,8 @@ $watch = AnyEvent->io(
 	cb => sub {
 		print "==== READING\n";
 		if ( sysread $s, my $buf, 512 ) {
-			print Dumper( $dqlite->feed($buf) );
+			my @msgs = $dqlite->feed($buf);
+			print Dumper( @msgs );
 		}
 		else {
 			print "empty read; all done\n";
