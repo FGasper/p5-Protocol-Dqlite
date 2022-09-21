@@ -1,0 +1,9 @@
+LICENSE
+MANIFEST
+Makefile.PL
+README.md
+cpanfile
+examples/to_dqlite_demo.pl
+lib/Protocol/Dqlite.pm
+t/feed.t
+t/request.t
