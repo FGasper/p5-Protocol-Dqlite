@@ -3,6 +3,8 @@ package Protocol::Dqlite;
 use strict;
 use warnings;
 
+our $VERSION = '0.01_01';
+
 # https://dqlite.io/docs/protocol
 # https://github.com/canonical/dqlite/blob/master/src/request.h
 # https://github.com/canonical/dqlite/blob/master/src/response.h
@@ -437,7 +439,7 @@ sub _parse_msg {
     my $msg = bless [], "Protocol::Dqlite::Response::$class";
 
     if ( $type == 7 ) {
-        my $end = substr( $body, -_U64_LEN );
+        my $end = substr( $body, -_U64_LEN() );
 
         my $is_done = ( $end eq $_DQLITE_RESPONSE_ROWS_DONE );
 
@@ -447,7 +449,7 @@ sub _parse_msg {
               $end;
         }
         else {
-            substr( $body, -_U64_LEN ) = q<>;
+            substr( $body, -_U64_LEN() ) = q<>;
 
             push @$msg, $is_done, _decode_response_rows($body);
         }
