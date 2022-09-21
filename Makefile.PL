@@ -25,4 +25,7 @@ WriteMakefile(
     VERSION_FROM => 'lib/Protocol/Dqlite.pm',         # finds \$VERSION
     ABSTRACT_FROM => 'lib/Protocol/Dqlite.pm',
     LICENSE      => 'perl',
+
+    # pack q/Q:
+    MIN_PERL_VERSION => 5.010000,
 );
