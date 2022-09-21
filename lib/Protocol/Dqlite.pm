@@ -518,7 +518,7 @@ sub _encode_query_tuple {
 sub _decode_response_rows {
     my ($body) = @_;
 
-    my @col_names = unpack "Q/($PACK_STRING)", $body;
+    my @col_names = unpack "$PACK_U64/($PACK_STRING)", $body;
 
     # Ideally Perl could just *tell* us how many bytes it just read …
     #
