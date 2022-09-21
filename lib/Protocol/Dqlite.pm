@@ -369,7 +369,7 @@ sub request {
 
 =head2 $obj = I<CLASS>->new()
 
-Instantes I<CLASS>.
+Instantiates I<CLASS>.
 
 =cut
 
@@ -598,7 +598,7 @@ package Protocol::Dqlite::Response;
 
 =head1 RESPONSE CLASSES
 
-All of the below subclass C<Protocol::Dqlite::Response>.
+All of the below extend C<Protocol::Dqlite::Response>.
 They expose various accessors as documented below:
 
 =over
@@ -717,7 +717,8 @@ package Protocol::Dqlite::Response::ROWS;
 
 =item * C<rows_count()>
 
-=item * C<row_types()>, C<row_data()> - need an index, max=(C<rows_count()>-1)
+=item * C<row_types()>, C<row_data()> - these need an index,
+max=(C<rows_count()>-1)
 
 =back
 

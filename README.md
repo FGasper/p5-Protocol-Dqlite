@@ -112,7 +112,7 @@ Example:
 
 ## $obj = _CLASS_->new()
 
-Instantes _CLASS_.
+Instantiates _CLASS_.
 
 ## @messages = _OBJ_->feed( $BYTES )
 
@@ -121,7 +121,7 @@ as `Protocol::Dqlite::Response` instances.
 
 # RESPONSE CLASSES
 
-All of the below subclass `Protocol::Dqlite::Response`.
+All of the below extend `Protocol::Dqlite::Response`.
 They expose various accessors as documented below:
 
 - `Protocol::Dqlite::Response::FAILURE`: `code()`, `message()`
@@ -140,7 +140,8 @@ MUST be between 0 and (`count()` - 1), inclusive.
     - `is_final()`
     - `column_names()` - returns a list, or a count in scalar context
     - `rows_count()`
-    - `row_types()`, `row_data()` - need an index, max=(`rows_count()`-1)
+    - `row_types()`, `row_data()` - these need an index,
+    max=(`rows_count()`-1)
 - `Protocol::Dqlite::Response::EMPTY`: (none)
 - `Protocol::Dqlite::Response::FILES`: `names()` (list/count) and
 `content()` (takes an index)
