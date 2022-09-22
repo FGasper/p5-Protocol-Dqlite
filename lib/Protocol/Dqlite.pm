@@ -3,7 +3,7 @@ package Protocol::Dqlite;
 use strict;
 use warnings;
 
-our $VERSION = '0.01_01';
+our $VERSION = '0.01';
 
 # https://dqlite.io/docs/protocol
 # https://github.com/canonical/dqlite/blob/master/src/request.h
@@ -36,7 +36,7 @@ Protocol::Dqlite - L<Dqlite|https://dqlite.io> in Perl
         last if $msg isa Protocol::Dqlite::Response::WELCOME;
 
         # An unexpected response. Better bail out …
-	#
+        #
         require Data::Dumper;
         die Data::Dumper::Dumper($msg);
     }
@@ -731,13 +731,13 @@ sub column_names { @{ $_[0][1] } }
 sub rows_count { 0 + @{ $_[0][2] } }
 
 sub row_types {
-	my $which = Protocol::Dqlite::Response::SERVERS::_get_which($_[1]);
-	@{ $_[0][2][$which][0] }
+    my $which = Protocol::Dqlite::Response::SERVERS::_get_which($_[1]);
+    @{ $_[0][2][$which][0] }
 }
 
 sub row_data {
-	my $which = Protocol::Dqlite::Response::SERVERS::_get_which($_[1]);
-	@{ $_[0][2][$which][1] }
+    my $which = Protocol::Dqlite::Response::SERVERS::_get_which($_[1]);
+    @{ $_[0][2][$which][1] }
 }
 
 package Protocol::Dqlite::Response::EMPTY;
@@ -771,7 +771,7 @@ sub content {
     Carp::croak("Need name") if !defined $name || !length $name;
     for (my $i=0; $i < @_; $i += 2) {
         next if $_[0][$i] ne $name;
-	return $_[0][1 + $i];
+    return $_[0][1 + $i];
     }
 
     Carp::croak("No file named “$name”");
