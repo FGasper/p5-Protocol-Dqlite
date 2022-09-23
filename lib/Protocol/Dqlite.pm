@@ -3,7 +3,7 @@ package Protocol::Dqlite;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.01_90';
 
 # https://dqlite.io/docs/protocol
 # https://github.com/canonical/dqlite/blob/master/src/request.h

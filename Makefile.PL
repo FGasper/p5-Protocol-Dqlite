@@ -3,6 +3,8 @@ use warnings;
 
 use ExtUtils::MakeMaker::CPANfile;
 
+eval { pack 'q' } or die "Unsupported: 64-bit perl is required.\n";
+
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
 WriteMakefile(
